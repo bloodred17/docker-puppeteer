@@ -3,7 +3,7 @@
 # Initially based upon:
 # https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#running-puppeteer-in-docker
 
-FROM node:14.16.0-buster-slim@sha256:ffc15488e56d99dbc9b90d496aaf47901c6a940c077bc542f675ae351e769a12
+FROM node:16.14.2-buster-slim@sha256:9ab0b2c165183814b061bb7b755944c9d064e8142f7f715b26191949be16a75f
 RUN  apt-get update \
      && apt-get install -y wget gnupg ca-certificates procps libxss1 \
      && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -22,3 +22,16 @@ RUN  apt-get update \
 # Install Puppeteer under /node_modules so it's available system-wide
 ADD package.json package-lock.json /
 RUN npm install
+
+# Install dependencies
+RUN apt-get update &&\
+    apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
+        libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
+        libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 \
+        libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 \
+        ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget \
+        xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps
+RUN apt-get install fonts-hosny-amiri
+RUN apt-get install fonts-wqy-zenhei
+ENV DISPLAY :99
+
