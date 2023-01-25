@@ -3,7 +3,7 @@
 # Initially based upon:
 # https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#running-puppeteer-in-docker
 
-FROM node:16.14.2-buster-slim@sha256:9ab0b2c165183814b061bb7b755944c9d064e8142f7f715b26191949be16a75f
+FROM node:16.19.0-buster-slim@sha256:904fa395a577db4dfe368e499c7752e948330d9531008db90fceb8a34c1ee013
 RUN  apt-get update \
      && apt-get install -y wget gnupg ca-certificates procps libxss1 \
      && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -19,8 +19,9 @@ RUN  apt-get update \
      && wget --quiet https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -O /usr/sbin/wait-for-it.sh \
      && chmod +x /usr/sbin/wait-for-it.sh
 
-# Install Puppeteer under /node_modules so it's available system-wide
-ADD package.json package-lock.json /
+# # Install Puppeteer under /node_modules so it's available system-wide
+WORKDIR /usr/app
+COPY ./package.json /usr/app
 RUN npm install
 
 # Install dependencies
