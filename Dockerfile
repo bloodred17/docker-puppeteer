@@ -20,8 +20,8 @@ RUN  apt-get update \
      && chmod +x /usr/sbin/wait-for-it.sh
 
 # # Install Puppeteer under /node_modules so it's available system-wide
-WORKDIR /usr/app
-COPY ./package.json /usr/app
+WORKDIR /app
+COPY ./package.json ./
 RUN npm install
 
 # Install dependencies
